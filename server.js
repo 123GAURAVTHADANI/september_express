@@ -3,21 +3,23 @@ var app = express();
 const dotenv = require("dotenv");
 const { userRouter } = require("./routes/user.router");
 const { orderRouter } = require("./routes/order.router");
+const { dbConfig } = require("./configurations/db.config");
 dotenv.config();
 
 let port = process.env.PORT || 3000;
 
-// IN BUILD MIDDLWARE / APPLICATION 
+// IN BUILD MIDDLWARE / APPLICATION
 app.use(express.json());
 
 // EXPRESS - ROUTER MIDDLEWARE
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/order", orderRouter);
 
-// http://localhost:5001/api/v1/user/getUser
+// http://localhost:5001/api/v1/user/getUser?age=18
 // http://localhost:5001/api/v1/user/createUser
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  await dbConfig();
   console.log(`🚀 Listening to the port ${port}`);
 });
 
