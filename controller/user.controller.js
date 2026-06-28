@@ -25,7 +25,7 @@ function createUser(req, res) {
 }
 
 async function signInUser(req, res) {
-  let { email, password } = req.body;
+  let { email, password, role } = req.body;
   if (!email || !password) {
     return res.json({ message: "Email / password is mandatory" });
   }

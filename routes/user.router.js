@@ -6,13 +6,23 @@ const {
   signInUser,
 } = require("../controller/user.controller");
 const { ageMiddleware } = require("../middlewares/age.middleware");
-const { isVerified } = require("../middlewares/auth.middleware");
+const { isVerified, authorize } = require("../middlewares/auth.middleware");
 
 const userRouter = express.Router();
 
-userRouter.get("/getUsers", isVerified, getUser);
+userRouter.get(
+  "/getUsers",
+  isVerified,
+  authorize("admin", "super-admin", "student"),
+  getUser,
+);
 
-userRouter.post("/createUser", createUser);
+userRouter.post(
+  "/createUser",
+  isVerified,
+  authorize("admin", "super-admin"),
+  createUser,
+);
 
 userRouter.post("/login", signInUser);
 
