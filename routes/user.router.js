@@ -6,10 +6,11 @@ const {
   signInUser,
 } = require("../controller/user.controller");
 const { ageMiddleware } = require("../middlewares/age.middleware");
+const { isVerified } = require("../middlewares/auth.middleware");
 
 const userRouter = express.Router();
 
-userRouter.get("/getUser", ageMiddleware, getUser);
+userRouter.get("/getUsers", isVerified, getUser);
 
 userRouter.post("/createUser", createUser);
 

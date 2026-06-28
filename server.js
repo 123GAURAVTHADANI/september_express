@@ -4,12 +4,14 @@ const dotenv = require("dotenv");
 const { userRouter } = require("./routes/user.router");
 const { orderRouter } = require("./routes/order.router");
 const { dbConfig } = require("./configurations/db.config");
+const cookieParser = require("cookie-parser");
 dotenv.config();
 
 let port = process.env.PORT || 3000;
 
 // IN BUILD MIDDLWARE / APPLICATION
 app.use(express.json());
+app.use(cookieParser());
 
 // EXPRESS - ROUTER MIDDLEWARE
 app.use("/api/v1/user", userRouter);

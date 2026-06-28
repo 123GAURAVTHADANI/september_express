@@ -1,4 +1,5 @@
 const { UserModel } = require("../models/users.model");
+const jwt = require("jsonwebtoken");
 
 function getUser(req, res) {
   UserModel.find({})
@@ -32,7 +33,13 @@ async function signInUser(req, res) {
   if (!user) {
     return res.json({ message: "email id is wrong!!!" });
   }
-  user.comparePassword(password);
+  let checkPassword = await user.comparePassword(password);
+  if (!checkPassword) {
+    return res.json({ message: "password is wrong!!!" });
+  }
+  let token = await jwt.sign(req.body, process.env.PRIVATE_KEY);
+  res.cookie("token", token);
+  return res.json({ message: "Welcome to the jungle!!" });
 }
 
 function getUserDetailsById(req, res) {
